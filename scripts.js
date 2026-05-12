@@ -179,10 +179,15 @@ async function submitFormToEmail(form, options = {}) {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(collectFormPayload(form))
     });
+    let serverPayload = null;
+    try { serverPayload = await response.json(); } catch (e) { /* not JSON */ }
+
     if (!response.ok) {
-      let detail = '';
-      try { const j = await response.json(); detail = j && (j.error || j.detail) ? ` ${j.error || ''}${j.detail ? ` (${j.detail})` : ''}` : ''; } catch (e) {}
-      throw new Error(`Form submission failed (${response.status})${detail}`);
+      const serverMessage = serverPayload && (serverPayload.error || serverPayload.detail);
+      const err = new Error(serverMessage || `Form submission failed (${response.status})`);
+      err.status = response.status;
+      err.serverMessage = serverMessage;
+      throw err;
     }
     setFormStatus(form, 'success', options.successMessage ||
       'Thank you — your request has been sent. Redirecting…');
@@ -190,8 +195,12 @@ async function submitFormToEmail(form, options = {}) {
     const target = options.thankYouUrl || FORM_THANK_YOU_URL;
     setTimeout(() => { window.location.href = target; }, 600);
   } catch (error) {
-    setFormStatus(form, 'error', options.errorMessage ||
-      'Sorry, we could not send your message right now. Please try again or contact us on WhatsApp.');
+    console.error('[BodyNova form] submission error:', error);
+    const userMessage = options.errorMessage
+      || (error && error.serverMessage
+          ? `Sorry, your message could not be sent — ${error.serverMessage} Please try again or contact us on WhatsApp.`
+          : 'Sorry, we could not send your message right now. Please try again or contact us on WhatsApp.');
+    setFormStatus(form, 'error', userMessage);
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('aria-busy');
