@@ -13932,3 +13932,262 @@ svg {
 .form-status.is-loading { color: #5d6f70; }
 .form-status.is-success { color: #1d7576; font-weight: 600; }
 .form-status.is-error   { color: #b54545;  font-weight: 600; }
+
+/* =========================================================
+   BodyNova iteration 4: compact transparent mobile header,
+   prettier burger menu, hero auto-sized on mobile so content
+   never gets cropped. This sits at the absolute end of the
+   stylesheet so it wins the cascade.
+   ========================================================= */
+
+/* ---- 1. Compact header on both desktop and mobile ---- */
+html body .header-shell {
+  height: 76px !important;
+  min-height: 76px !important;
+}
+
+@media (max-width: 1200px) {
+  html body .header-shell {
+    height: 72px !important;
+    min-height: 72px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  html body .header-shell {
+    height: 64px !important;
+    min-height: 64px !important;
+    padding-left: 18px !important;
+    padding-right: 14px !important;
+  }
+  html body .mobile-panel {
+    top: 64px !important;
+    max-height: calc(100svh - 64px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body .header-shell {
+    height: 60px !important;
+    min-height: 60px !important;
+  }
+  html body .mobile-panel {
+    top: 60px !important;
+    max-height: calc(100svh - 60px) !important;
+  }
+}
+
+/* ---- 2. Logo sized down to match the smaller header ---- */
+html body .brand-logo,
+html body .site-header .brand-logo,
+html body .site-header .brand .brand-logo {
+  height: 50px !important;
+  max-height: 50px !important;
+  width: auto !important;
+  max-width: 200px !important;
+  object-fit: contain !important;
+}
+
+@media (min-width: 1100px) {
+  html body .brand-logo,
+  html body .site-header .brand-logo,
+  html body .site-header .brand .brand-logo {
+    height: 54px !important;
+    max-height: 54px !important;
+    max-width: 220px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  html body .brand-logo,
+  html body .site-header .brand-logo,
+  html body .site-header .brand .brand-logo {
+    height: 42px !important;
+    max-height: 42px !important;
+    max-width: 170px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body .brand-logo,
+  html body .site-header .brand-logo,
+  html body .site-header .brand .brand-logo {
+    height: 38px !important;
+    max-height: 38px !important;
+    max-width: 150px !important;
+  }
+}
+
+/* ---- 3. Mobile header: transparent by default, white on scroll ----
+   The previous CSS forced an opaque white background on .site-header
+   AND .site-header.is-scrolled at <= 980px, which is why the header
+   was permanently white on phones. Override that here. ---- */
+@media (max-width: 980px) {
+  html body .site-header,
+  html body .site-header.is-transparent,
+  html body .site-header:not(.is-scrolled) {
+    background: transparent !important;
+    border-bottom: 1px solid transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: background .35s ease, box-shadow .35s ease,
+                border-color .35s ease, backdrop-filter .35s ease !important;
+  }
+
+  html body .site-header.is-scrolled {
+    background: rgba(255, 255, 255, .94) !important;
+    border-bottom: 1px solid rgba(27, 95, 97, .10) !important;
+    box-shadow: 0 10px 30px rgba(27, 95, 97, .10) !important;
+    backdrop-filter: saturate(180%) blur(10px) !important;
+    -webkit-backdrop-filter: saturate(180%) blur(10px) !important;
+  }
+
+  /* Logo swap: light at top, dark on scroll */
+  html body .site-header:not(.is-scrolled) .brand-logo-light,
+  html body .site-header.is-transparent .brand-logo-light {
+    opacity: 1 !important;
+  }
+  html body .site-header:not(.is-scrolled) .brand-logo-dark,
+  html body .site-header.is-transparent .brand-logo-dark {
+    opacity: 0 !important;
+  }
+  html body .site-header.is-scrolled .brand-logo-light { opacity: 0 !important; }
+  html body .site-header.is-scrolled .brand-logo-dark  { opacity: 1 !important; }
+}
+
+/* ---- 4. Prettier burger menu — chip-style button, color-aware ---- */
+.menu-toggle {
+  position: relative !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  padding: 0 !important;
+  border-radius: 14px !important;
+  background: rgba(255, 255, 255, .12) !important;
+  border: 1px solid rgba(255, 255, 255, .26) !important;
+  backdrop-filter: saturate(180%) blur(10px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(10px) !important;
+  cursor: pointer !important;
+  transition: background .25s ease, border-color .25s ease,
+              transform .25s ease, box-shadow .25s ease !important;
+  margin-left: auto !important;
+}
+
+.menu-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .12);
+}
+
+.menu-toggle span {
+  display: block !important;
+  width: 18px !important;
+  height: 2px !important;
+  margin: 0 !important;
+  border-radius: 2px !important;
+  background: #ffffff !important;
+  transition: transform .3s ease, opacity .25s ease, background .25s ease !important;
+}
+
+/* When scrolled (white header), the chip turns subtle teal and lines turn dark */
+.site-header.is-scrolled .menu-toggle {
+  background: rgba(20, 53, 54, .05) !important;
+  border-color: rgba(20, 53, 54, .14) !important;
+  box-shadow: none !important;
+}
+.site-header.is-scrolled .menu-toggle span {
+  background: var(--ink, #143536) !important;
+}
+
+/* Open state: morph into a clean X */
+.menu-toggle.is-open {
+  background: rgba(20, 53, 54, .10) !important;
+  border-color: rgba(20, 53, 54, .22) !important;
+}
+.menu-toggle.is-open span {
+  background: var(--ink, #143536) !important;
+}
+.menu-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-toggle.is-open span:nth-child(2) { opacity: 0; }
+.menu-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Hide the chip styling on desktop where the burger is hidden */
+@media (min-width: 981px) {
+  .menu-toggle { display: none !important; }
+}
+
+/* ---- 5. Mobile hero: height adapts to content so nothing is cropped.
+   Earlier we forced a fixed 55vh / 52vh which clipped the homepage
+   hero (kicker + h1 + sub + rating row + trust strip + actions +
+   slider nav simply do not fit in half a screen). Use a sensible
+   min-height so it still feels "short" relative to 100vh, but let it
+   grow to fit content. ---- */
+@media (max-width: 980px) {
+  html body .hero,
+  html body .about-hero,
+  html body .about-page .about-hero,
+  html body .services-hero,
+  html body .services-page .services-hero,
+  html body .contact-hero,
+  html body .contact-page .contact-hero,
+  html body .service-detail-hero,
+  html body .service-detail-page .service-detail-hero,
+  html body .hero[style],
+  html body .about-hero[style],
+  html body .services-hero[style],
+  html body .contact-hero[style],
+  html body .service-detail-hero[style] {
+    height: auto !important;
+    min-height: 78vh !important;
+    max-height: none !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    align-items: center !important;
+  }
+
+  html body .hero-inner,
+  html body .about-hero-inner,
+  html body .services-hero-inner,
+  html body .contact-hero-inner,
+  html body .service-detail-hero-inner {
+    padding-top: 92px !important;
+    padding-bottom: 86px !important;
+  }
+
+  /* Anchor the slider nav inside the hero box; nudge it up just
+     enough that the trust-row above doesn't collide with it. */
+  html body .hero .hero-slider-nav {
+    right: 16px !important;
+    left: auto !important;
+    bottom: 14px !important;
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body .hero,
+  html body .about-hero,
+  html body .services-hero,
+  html body .contact-hero,
+  html body .service-detail-hero,
+  html body .hero[style],
+  html body .about-hero[style],
+  html body .services-hero[style],
+  html body .contact-hero[style],
+  html body .service-detail-hero[style] {
+    min-height: 82vh !important;
+  }
+
+  html body .hero-inner,
+  html body .about-hero-inner,
+  html body .services-hero-inner,
+  html body .contact-hero-inner,
+  html body .service-detail-hero-inner {
+    padding-top: 84px !important;
+    padding-bottom: 78px !important;
+  }
+}
