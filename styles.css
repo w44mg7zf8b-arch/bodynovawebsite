@@ -13798,18 +13798,26 @@ svg {
 }
 
 /* ---- Mobile hero: shorter height + centered background image.
-   Highest-specificity selectors so we beat the earlier
-   100svh / height: auto rules that live in the same file. ---- */
+   Maximum-specificity selectors so we beat every earlier 100svh /
+   height: 100vh / height: auto rule sitting in this file. Also uses
+   inline-style override via .hero[style] to defeat the inline
+   `style="min-height:100vh!important;height:100vh!important"` on
+   .about-hero and a few other hero elements in some pages. ---- */
 @media (max-width: 980px) {
-  body .hero,
-  body .about-hero,
-  body .about-page .about-hero,
-  body .services-hero,
-  body .services-page .services-hero,
-  body .contact-hero,
-  body .contact-page .contact-hero,
-  body .service-detail-hero,
-  body .service-detail-page .service-detail-hero {
+  html body .hero,
+  html body .about-hero,
+  html body .about-page .about-hero,
+  html body .services-hero,
+  html body .services-page .services-hero,
+  html body .contact-hero,
+  html body .contact-page .contact-hero,
+  html body .service-detail-hero,
+  html body .service-detail-page .service-detail-hero,
+  html body .hero[style],
+  html body .about-hero[style],
+  html body .services-hero[style],
+  html body .contact-hero[style],
+  html body .service-detail-hero[style] {
     height: 55vh !important;
     min-height: 55vh !important;
     max-height: 55vh !important;
@@ -13818,31 +13826,48 @@ svg {
     align-items: center !important;
   }
 
-  body .hero-slide,
-  body .hero-slide-1,
-  body .hero-slide-2,
-  body .hero-slide-3,
-  body .about-hero-bg,
-  body .about-page .about-hero-bg,
-  body .services-hero-bg,
-  body .services-page .services-hero-bg,
-  body .contact-hero-bg,
-  body .contact-page .contact-hero-bg,
-  body .service-detail-hero-bg,
-  body .service-detail-page .service-detail-hero-bg {
+  html body .hero-slide,
+  html body .hero-slide-1,
+  html body .hero-slide-2,
+  html body .hero-slide-3,
+  html body .about-hero-bg,
+  html body .about-page .about-hero-bg,
+  html body .services-hero-bg,
+  html body .services-page .services-hero-bg,
+  html body .contact-hero-bg,
+  html body .contact-page .contact-hero-bg,
+  html body .service-detail-hero-bg,
+  html body .service-detail-page .service-detail-hero-bg {
     background-position: center center !important;
     background-size: cover !important;
     background-repeat: no-repeat !important;
     transform: none !important;
   }
 
-  body .hero-inner,
-  body .about-hero-inner,
-  body .services-hero-inner,
-  body .contact-hero-inner,
-  body .service-detail-hero-inner {
+  html body .hero-inner,
+  html body .about-hero-inner,
+  html body .services-hero-inner,
+  html body .contact-hero-inner,
+  html body .service-detail-hero-inner {
     padding-top: 90px !important;
     padding-bottom: 18px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body .hero,
+  html body .about-hero,
+  html body .services-hero,
+  html body .contact-hero,
+  html body .service-detail-hero,
+  html body .hero[style],
+  html body .about-hero[style],
+  html body .services-hero[style],
+  html body .contact-hero[style],
+  html body .service-detail-hero[style] {
+    height: 52vh !important;
+    min-height: 52vh !important;
+    max-height: 52vh !important;
   }
 }
 
