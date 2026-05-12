@@ -114,10 +114,13 @@ function initStoryMedia() {
 /* ================== EMAIL FORMS ==================
    All website forms (homepage booking, about booking, service-page booking,
    contact form, footer/CTA forms) submit user details to the clinic mailbox
-   via FormSubmit AJAX. The "Or WhatsApp instead" link on each form is a
-   separate <a>, so it keeps working independently. */
+   via our own Vercel serverless function (/api/send-email). The email is
+   fully branded (no third-party sponsor footer) and on success the visitor
+   is redirected to thank-you.html. The "Or WhatsApp instead" link on each
+   form is a separate <a>, so it keeps working independently. */
 
-const FORM_EMAIL_ENDPOINT = 'https://formsubmit.co/ajax/bodynova@hucoskills.com';
+const FORM_EMAIL_ENDPOINT = '/api/send-email';
+const FORM_THANK_YOU_URL  = 'thank-you.html';
 
 function ensureFormStatusEl(form) {
   let status = form.querySelector('.form-status');
@@ -176,14 +179,19 @@ async function submitFormToEmail(form, options = {}) {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(collectFormPayload(form))
     });
-    if (!response.ok) throw new Error(`Form submission failed (${response.status})`);
+    if (!response.ok) {
+      let detail = '';
+      try { const j = await response.json(); detail = j && (j.error || j.detail) ? ` ${j.error || ''}${j.detail ? ` (${j.detail})` : ''}` : ''; } catch (e) {}
+      throw new Error(`Form submission failed (${response.status})${detail}`);
+    }
     setFormStatus(form, 'success', options.successMessage ||
-      'Thank you — your request has been sent. Our clinic team will be in touch shortly.');
+      'Thank you — your request has been sent. Redirecting…');
     form.reset();
+    const target = options.thankYouUrl || FORM_THANK_YOU_URL;
+    setTimeout(() => { window.location.href = target; }, 600);
   } catch (error) {
     setFormStatus(form, 'error', options.errorMessage ||
       'Sorry, we could not send your message right now. Please try again or contact us on WhatsApp.');
-  } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.removeAttribute('aria-busy');
