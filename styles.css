@@ -13698,45 +13698,94 @@ svg {
    very end of the stylesheet so it wins the cascade.
    ========================================================= */
 
-/* ---- Logo: slightly larger (desktop + mobile). Header shell grows
-   proportionally so the bigger logo still sits comfortably. ---- */
-.brand-logo {
-  height: 64px !important;
-  max-height: 64px !important;
+/* ---- Logo: noticeably larger across all breakpoints.
+   Header shell grows proportionally so the bigger logo still
+   sits comfortably in the header. ---- */
+.brand-logo,
+.site-header .brand-logo,
+.site-header .brand .brand-logo {
+  height: 80px !important;
+  max-height: 80px !important;
   width: auto !important;
-  max-width: 240px !important;
+  max-width: 300px !important;
   object-fit: contain !important;
 }
 
 .header-shell {
-  height: 84px !important;
-  min-height: 84px !important;
+  height: 100px !important;
+  min-height: 100px !important;
 }
 
 @media (min-width: 1100px) {
-  .brand-logo {
-    height: 68px !important;
-    max-height: 68px !important;
-    max-width: 260px !important;
+  .brand-logo,
+  .site-header .brand-logo,
+  .site-header .brand .brand-logo {
+    height: 86px !important;
+    max-height: 86px !important;
+    max-width: 320px !important;
+  }
+  .header-shell {
+    height: 108px !important;
+    min-height: 108px !important;
   }
 }
 
 @media (max-width: 1200px) {
-  .brand-logo {
-    height: 58px !important;
-    max-height: 58px !important;
+  .brand-logo,
+  .site-header .brand-logo,
+  .site-header .brand .brand-logo {
+    height: 74px !important;
+    max-height: 74px !important;
   }
   .header-shell {
-    height: 80px !important;
-    min-height: 80px !important;
+    height: 94px !important;
+    min-height: 94px !important;
   }
 }
 
 @media (max-width: 980px) {
-  .brand-logo {
+  .brand-logo,
+  .site-header .brand-logo,
+  .site-header .brand .brand-logo {
+    height: 66px !important;
+    max-height: 66px !important;
+    max-width: 240px !important;
+  }
+  .header-shell {
+    height: 88px !important;
+    min-height: 88px !important;
+  }
+  .mobile-panel {
+    top: 88px !important;
+    max-height: calc(100svh - 88px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-logo,
+  .site-header .brand-logo,
+  .site-header .brand .brand-logo {
+    height: 60px !important;
+    max-height: 60px !important;
+    max-width: 220px !important;
+  }
+  .header-shell {
+    height: 82px !important;
+    min-height: 82px !important;
+  }
+  .mobile-panel {
+    top: 82px !important;
+    max-height: calc(100svh - 82px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-logo,
+  .site-header .brand-logo,
+  .site-header .brand .brand-logo {
     height: 54px !important;
     max-height: 54px !important;
-    max-width: 210px !important;
+    max-width: 190px !important;
   }
   .header-shell {
     height: 76px !important;
@@ -13748,70 +13797,52 @@ svg {
   }
 }
 
-@media (max-width: 640px) {
-  .brand-logo {
-    height: 50px !important;
-    max-height: 50px !important;
-    max-width: 190px !important;
-  }
-  .header-shell {
-    height: 72px !important;
-    min-height: 72px !important;
-  }
-  .mobile-panel {
-    top: 72px !important;
-    max-height: calc(100svh - 72px) !important;
-  }
-}
-
-@media (max-width: 360px) {
-  .brand-logo {
-    height: 44px !important;
-    max-height: 44px !important;
-    max-width: 168px !important;
-  }
-  .header-shell {
-    height: 66px !important;
-    min-height: 66px !important;
-  }
-  .mobile-panel {
-    top: 66px !important;
-    max-height: calc(100svh - 66px) !important;
-  }
-}
-
-/* ---- Mobile hero: 60vh height + centered background image ---- */
+/* ---- Mobile hero: shorter height + centered background image.
+   Highest-specificity selectors so we beat the earlier
+   100svh / height: auto rules that live in the same file. ---- */
 @media (max-width: 980px) {
-  .hero,
-  .about-hero,
-  .services-hero,
-  .contact-hero,
-  .service-detail-hero {
-    height: 60vh !important;
-    min-height: 60vh !important;
-    max-height: 60vh !important;
+  body .hero,
+  body .about-hero,
+  body .about-page .about-hero,
+  body .services-hero,
+  body .services-page .services-hero,
+  body .contact-hero,
+  body .contact-page .contact-hero,
+  body .service-detail-hero,
+  body .service-detail-page .service-detail-hero {
+    height: 55vh !important;
+    min-height: 55vh !important;
+    max-height: 55vh !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    align-items: center !important;
   }
 
-  .hero-slide,
-  .hero-slide-1,
-  .hero-slide-2,
-  .hero-slide-3,
-  .about-hero-bg,
-  .services-hero-bg,
-  .contact-hero-bg,
-  .service-detail-hero-bg {
+  body .hero-slide,
+  body .hero-slide-1,
+  body .hero-slide-2,
+  body .hero-slide-3,
+  body .about-hero-bg,
+  body .about-page .about-hero-bg,
+  body .services-hero-bg,
+  body .services-page .services-hero-bg,
+  body .contact-hero-bg,
+  body .contact-page .contact-hero-bg,
+  body .service-detail-hero-bg,
+  body .service-detail-page .service-detail-hero-bg {
     background-position: center center !important;
     background-size: cover !important;
     background-repeat: no-repeat !important;
+    transform: none !important;
   }
 
-  .hero-inner,
-  .about-hero-inner,
-  .services-hero-inner,
-  .contact-hero-inner,
-  .service-detail-hero-inner {
-    padding-top: 100px !important;
-    padding-bottom: 28px !important;
+  body .hero-inner,
+  body .about-hero-inner,
+  body .services-hero-inner,
+  body .contact-hero-inner,
+  body .service-detail-hero-inner {
+    padding-top: 90px !important;
+    padding-bottom: 18px !important;
   }
 }
 
@@ -13830,7 +13861,11 @@ svg {
   }
 }
 
-/* ---- Footer social icons: proper rounded buttons with SVG icons ---- */
+/* ---- Footer social icons: proper rounded buttons with SVG icons.
+   IMPORTANT: do NOT force a global fill: currentColor on every SVG —
+   doing so turns the Instagram outline icon into a solid box. Each
+   SVG below carries its own inline fill / stroke attributes that
+   already resolve to the link's color through currentColor. ---- */
 .footer-socials a {
   width: 42px !important;
   height: 42px !important;
@@ -13843,15 +13878,14 @@ svg {
   color: #1d7576 !important;
   text-decoration: none !important;
   transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease !important;
+  padding: 0 !important;
+  font-size: 0 !important;
 }
 
 .footer-socials a svg {
   width: 18px !important;
   height: 18px !important;
   display: block !important;
-  color: inherit !important;
-  stroke: currentColor;
-  fill: currentColor;
 }
 
 .footer-socials a:hover {
