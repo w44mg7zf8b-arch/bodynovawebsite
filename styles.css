@@ -13690,3 +13690,186 @@ svg {
     min-height: 66px !important;
   }
 }
+
+/* =========================================================
+   BodyNova: targeted fixes — logo size, mobile hero, mobile
+   service overview portrait, footer social icons, form
+   submission status. This block intentionally sits at the
+   very end of the stylesheet so it wins the cascade.
+   ========================================================= */
+
+/* ---- Logo: slightly larger (desktop + mobile). Header shell grows
+   proportionally so the bigger logo still sits comfortably. ---- */
+.brand-logo {
+  height: 64px !important;
+  max-height: 64px !important;
+  width: auto !important;
+  max-width: 240px !important;
+  object-fit: contain !important;
+}
+
+.header-shell {
+  height: 84px !important;
+  min-height: 84px !important;
+}
+
+@media (min-width: 1100px) {
+  .brand-logo {
+    height: 68px !important;
+    max-height: 68px !important;
+    max-width: 260px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .brand-logo {
+    height: 58px !important;
+    max-height: 58px !important;
+  }
+  .header-shell {
+    height: 80px !important;
+    min-height: 80px !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .brand-logo {
+    height: 54px !important;
+    max-height: 54px !important;
+    max-width: 210px !important;
+  }
+  .header-shell {
+    height: 76px !important;
+    min-height: 76px !important;
+  }
+  .mobile-panel {
+    top: 76px !important;
+    max-height: calc(100svh - 76px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .brand-logo {
+    height: 50px !important;
+    max-height: 50px !important;
+    max-width: 190px !important;
+  }
+  .header-shell {
+    height: 72px !important;
+    min-height: 72px !important;
+  }
+  .mobile-panel {
+    top: 72px !important;
+    max-height: calc(100svh - 72px) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-logo {
+    height: 44px !important;
+    max-height: 44px !important;
+    max-width: 168px !important;
+  }
+  .header-shell {
+    height: 66px !important;
+    min-height: 66px !important;
+  }
+  .mobile-panel {
+    top: 66px !important;
+    max-height: calc(100svh - 66px) !important;
+  }
+}
+
+/* ---- Mobile hero: 60vh height + centered background image ---- */
+@media (max-width: 980px) {
+  .hero,
+  .about-hero,
+  .services-hero,
+  .contact-hero,
+  .service-detail-hero {
+    height: 60vh !important;
+    min-height: 60vh !important;
+    max-height: 60vh !important;
+  }
+
+  .hero-slide,
+  .hero-slide-1,
+  .hero-slide-2,
+  .hero-slide-3,
+  .about-hero-bg,
+  .services-hero-bg,
+  .contact-hero-bg,
+  .service-detail-hero-bg {
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+  }
+
+  .hero-inner,
+  .about-hero-inner,
+  .services-hero-inner,
+  .contact-hero-inner,
+  .service-detail-hero-inner {
+    padding-top: 100px !important;
+    padding-bottom: 28px !important;
+  }
+}
+
+/* ---- Mobile only: portrait service overview image ----
+   Desktop layout untouched (aspect-ratio still 4/5 or 16/10 above). */
+@media (max-width: 768px) {
+  .service-detail-page .service-overview-image {
+    aspect-ratio: 4 / 5 !important;
+    max-width: 360px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    border-radius: 22px !important;
+  }
+}
+
+/* ---- Footer social icons: proper rounded buttons with SVG icons ---- */
+.footer-socials a {
+  width: 42px !important;
+  height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(29, 117, 118, .25) !important;
+  background: #ffffff !important;
+  color: #1d7576 !important;
+  text-decoration: none !important;
+  transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease !important;
+}
+
+.footer-socials a svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: block !important;
+  color: inherit !important;
+  stroke: currentColor;
+  fill: currentColor;
+}
+
+.footer-socials a:hover {
+  transform: translateY(-2px);
+  background: #1d7576 !important;
+  color: #ffffff !important;
+  border-color: #1d7576 !important;
+}
+
+/* ---- Inline status text shown by JS after form submission ---- */
+.form-status {
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #5d6f70;
+  min-height: 1em;
+}
+
+.form-status.is-loading { color: #5d6f70; }
+.form-status.is-success { color: #1d7576; font-weight: 600; }
+.form-status.is-error   { color: #b54545;  font-weight: 600; }
