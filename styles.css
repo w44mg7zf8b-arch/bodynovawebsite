@@ -14191,3 +14191,56 @@ html body .site-header .brand .brand-logo {
     padding-bottom: 78px !important;
   }
 }
+
+/* =========================================================
+   Legal / confirmation pages — always-sticky white header.
+   The pages below have no hero photograph behind the header,
+   so the site's normal transparent-on-top-of-hero behaviour
+   would float invisibly over a cream/white background.
+   Force the same "sticky scrolled" white pill from page
+   load, regardless of scroll state, on every screen size.
+   ========================================================= */
+html body.thankyou-page .site-header,
+html body.thankyou-page .site-header.is-transparent,
+html body.thankyou-page .site-header:not(.is-scrolled),
+html body.thankyou-page .site-header.is-scrolled,
+html body.policy-page .site-header,
+html body.policy-page .site-header.is-transparent,
+html body.policy-page .site-header:not(.is-scrolled),
+html body.policy-page .site-header.is-scrolled {
+  background: rgba(255, 255, 255, .96) !important;
+  border-bottom: 1px solid rgba(27, 95, 97, .10) !important;
+  box-shadow: 0 10px 30px rgba(27, 95, 97, .10) !important;
+  backdrop-filter: saturate(180%) blur(10px) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(10px) !important;
+}
+
+/* Always show the dark teal logo on these pages (never the light one). */
+html body.thankyou-page .site-header .brand-logo-light,
+html body.policy-page   .site-header .brand-logo-light { opacity: 0 !important; }
+html body.thankyou-page .site-header .brand-logo-dark,
+html body.policy-page   .site-header .brand-logo-dark  { opacity: 1 !important; }
+
+/* Burger chip: subtle teal background with dark ink lines on these pages. */
+html body.thankyou-page .site-header .menu-toggle,
+html body.policy-page   .site-header .menu-toggle {
+  background: rgba(20, 53, 54, .05) !important;
+  border-color: rgba(20, 53, 54, .14) !important;
+  box-shadow: none !important;
+}
+html body.thankyou-page .site-header .menu-toggle span,
+html body.policy-page   .site-header .menu-toggle span {
+  background: var(--ink, #143536) !important;
+}
+
+/* Hide the top-note announcement strip on these pages — it belongs on
+   marketing pages, not on a legal or confirmation page. */
+html body.thankyou-page .top-note,
+html body.policy-page   .top-note { display: none !important; }
+
+/* Desktop-nav link contrast on these pages: keep the same dark ink
+   used by the scrolled state of the rest of the site. */
+html body.thankyou-page .site-header .desktop-nav a,
+html body.policy-page   .site-header .desktop-nav a {
+  color: var(--ink, #143536) !important;
+}
