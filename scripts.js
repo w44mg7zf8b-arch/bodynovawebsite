@@ -114,12 +114,14 @@ function initStoryMedia() {
 /* ================== EMAIL FORMS ==================
    All website forms (homepage booking, about booking, service-page booking,
    contact form, footer/CTA forms) submit user details to the clinic mailbox
-   via our own Vercel serverless function (/api/send-email). The email is
-   fully branded (no third-party sponsor footer) and on success the visitor
-   is redirected to thank-you.html. The "Or WhatsApp instead" link on each
-   form is a separate <a>, so it keeps working independently. */
+   via send.php on the local server. send.php builds a fully-branded HTML
+   email (BodyNova teal + gold, no third-party sponsor footer) and uses
+   PHP's built-in mail() function (the host's local MTA — sendmail /
+   postfix). On success the visitor is redirected to thank-you.html. The
+   "Or WhatsApp instead" link on each form is a separate <a>, so it keeps
+   working independently. */
 
-const FORM_EMAIL_ENDPOINT = '/api/send-email';
+const FORM_EMAIL_ENDPOINT = 'send.php';
 const FORM_THANK_YOU_URL  = 'thank-you.html';
 
 function ensureFormStatusEl(form) {
@@ -152,8 +154,6 @@ function collectFormPayload(form) {
   const data = new FormData(form);
   const payload = {
     _subject: buildFormSubject(form),
-    _template: 'table',
-    _captcha: 'false',
     Page: document.title || location.pathname,
     'Page URL': location.href
   };
@@ -163,6 +163,19 @@ function collectFormPayload(form) {
     payload[label] = (value || '').toString().trim();
   });
   return payload;
+}
+
+/* Convert the {label: value} payload into URL-encoded form data so PHP's
+   $_POST superglobal can parse it natively (no need for json_decode on
+   php://input). */
+function payloadToFormEncoded(payload) {
+  const params = new URLSearchParams();
+  Object.keys(payload).forEach(key => {
+    const value = payload[key];
+    if (value === undefined || value === null) return;
+    params.append(key, String(value));
+  });
+  return params.toString();
 }
 
 async function submitFormToEmail(form, options = {}) {
@@ -176,8 +189,12 @@ async function submitFormToEmail(form, options = {}) {
   try {
     const response = await fetch(FORM_EMAIL_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(collectFormPayload(form))
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      body: payloadToFormEncoded(collectFormPayload(form))
     });
     let serverPayload = null;
     try { serverPayload = await response.json(); } catch (e) { /* not JSON */ }
